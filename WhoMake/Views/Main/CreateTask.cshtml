@@ -1,0 +1,335 @@
+﻿@{ 
+
+
+    if ((Session["UserName"] == null || (string)Session["UserName"] == "") ||(Session["CookieOmnOmn"] == null || (string)Session["CookieOmnOmn"] == ""))
+    { 
+        <div class="form-reg form-horizontal">
+            <div class="row">
+                <div class="col-md-offset-1 col-md-10">
+                 <h1 style="margin-top: 60px;margin-bottom: 60px;"><p>  Вам необходимо авторизироваться, чтобы Вы могли создавать задания!</p></h1>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        using (Ajax.BeginForm("CreateNewTask", null, new AjaxOptions
+        {
+            OnBegin = "OnBegin",
+            LoadingElementId = "loading",
+            LoadingElementDuration = 5000,
+            OnSuccess = "OnSuccess"
+
+        },
+                                            new { @class = "form-reg form-horizontal", id = "form1" }))
+        {
+
+    <h1 class="item-form__title">Основная информация</h1>
+        <hr align="left" width="100%" size="1" color="#292C2F" /><br>
+
+                <div class="form-group">
+                    <label class="control-label">Выберите вид услуги:</label>
+                    <br />
+                    <select name="category_id" id="categoryId" title="Выберите категорию" class="selectpicker" required tabindex="1">
+                        @{ 
+                            ///foreach (var category in collection)
+                           // {
+
+                           // }
+                        }
+                        <option value="3">Выполнить в период</option>
+                    </select>
+                </div>
+
+
+
+                <div class="form-group">
+                    <label class="control-label">Выберите категорию:</label>
+                    <br />
+                    <select name="service_id" id="serviceId" title="Выберите вид услуги" class="selectpicker" required tabindex="2">
+                        <option value="1">Начать</option>
+                        <option value="2">Завершить</option>
+                        <option value="3">Выполнить в период</option>
+                    </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Мне нужно:</label>
+                        <br />
+                        <input type="text"
+                               style="width:300px;"
+                               id="titleId"
+                               class="col-6 js-title__field"
+                               name="title_id"
+                               value=""
+                               maxlength="50"
+                               data-vas="25"
+                               data-initial-autosuggest="off" />
+                    </div>
+
+
+
+        <div class="form-group">
+            <label class="control-label">Описание объявления:</label>
+            <div id="summernote"></div>
+            <script>
+                $(document).ready(function () {
+                    $('#summernote').summernote({
+                        lang: 'ru-RU',
+                        toolbar: [
+                            // [groupName, [list of button]]
+                            ['style', ['bold', 'italic', 'underline', 'clear']],
+                            ['font', ['strikethrough', 'superscript', 'subscript']],
+                            ['fontsize', ['fontsize']],
+                            ['color', ['color']],
+                            ['para', ['ul', 'ol', 'paragraph']],
+                            ['height', ['height']]
+                        ],
+                        disableDragAndDrop: true,
+                        placeholder: 'Опишите пожелания и детали, чтобы исполнители лучше оценили вашу задачу. Укажите полное описание задачи, пример желаемого результата, дополнительные требования к исполнителю, сроки выполнения заказа, условия оплаты.'
+
+                    });
+                });
+
+                        //Доставать данные - alert($('#summernote').summernote('code'));
+            </script>
+
+        </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Цена:</label>
+                        <input type="text"
+                               style="width:100px;"
+                               id="priceId"
+                               class="form-control"
+                               name="price_id"
+                               value="0"
+                               maxlength="12" required/>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label">Дата и время:</label>                 
+                            <div style="width:150px;">
+                                <select name="date_id" id="dateId" class="selectpicker" >
+                                    <option value="1">Начать</option>
+                                    <option value="2">Завершить</option>
+                                    <option value="3">Выполнить в период</option>
+                                </select>
+                            </div>
+                            <br />
+                            <div id="timeContainer">
+
+                                <div class="row">
+                                    <div class='col-sm-2'>
+                                        <div class="form-group">
+                                            <input type='text' class="form-control" id='date_exeq_beginId' name="date_exeq_begin" placeholder="Дата" required tabindex="3"/>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class='col-sm-2'>
+                                        <div class="form-group">
+                                            <input type='text' class="form-control" id='time_exeq_beginId' name="time_exeq_beginId" placeholder="Время" required tabindex="4"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                      
+                    </div>
+
+
+                <script type="text/javascript">
+                      var datetime = function () {
+                          $(function () {
+                              $("#date_exeq_beginId").datetimepicker({ format: 'YYYY-MM-DD', locale: 'ru' });
+                              $("#time_exeq_beginId").datetimepicker({ format: 'hh-mm', locale: 'ru'});
+
+                              $("#date_exeq_endId").datetimepicker({ format: 'YYYY-MM-DD', locale: 'ru' });
+                              $("#time_exeq_endId").datetimepicker({ format: 'hh-mm', locale: 'ru' });
+
+                              $("#date_beginId").datetimepicker({ format: 'YYYY-MM-DD', locale: 'ru'  });
+
+                              $("#date_endId").datetimepicker({ useCurrent: false, format: 'YYYY-MM-DD', locale: 'ru'  });
+
+                              $("#date_beginId").on("dp.change", function (e) {
+                                  $("#date_endId").data("DateTimePicker").minDate(e.date);
+                              });
+                              $("#date_endId").on("dp.change", function (e) {
+                                  $("#date_beginId").data("DateTimePicker").maxDate(e.date);
+                              });
+
+                          });
+                      }
+
+                      datetime();
+
+                </script>
+
+                <h2 class="form-section__title">Местоположение</h2>
+                <hr align="left" width="100%" size="1" color="#292C2F" /><br>
+
+                    <div class="form-group">
+                        <label class="control-label">Выберите город:</label>
+                        <br />
+                        <select name="location_id" id="locationId" title="Выберите ваш город" class="selectpicker" required tabindex="5">
+                            <option value="Барнаул" selected >Барнаул</option>
+                        </select>
+                    </div>
+
+
+        <div class="form-group">
+            <label class="control-label">Адрес:</label>
+            <br />
+            <input type="text" style="width:300px;"
+                   id="adresId"
+                   class="col-6 js-title__field"
+                   name="adres_id"
+                   value=""
+                   maxlength="50"
+                   data-vas="25"
+                   data-initial-autosuggest="off" required tabindex="6"/>
+        </div>
+
+
+
+        <div class="form-group">
+            <label class="control-label">Телефон:</label>
+            <br />
+            <input style="width:30%;" type="tel"
+                   id="phoneId"
+                   class="col-6 js-title__field"
+                   name="phone_id"
+                   value=""
+                   maxlength="16"
+                   data-vas="25"
+                   data-initial-autosuggest="off" required tabindex="7"/>
+            <script>$("#phoneId").mask("+7(999) 999-9999");</script>
+        </div>
+
+           <div class="row">
+                <div class="col-md-offset-9 col-md-3">
+                <button id="Submit" class="btn-lg flat-butt flat-info-butt btn-block" type="submit">Опубликовать задание</button>
+                </div>
+            </div>
+
+        }
+    <script>
+                      $('#categoryId').change(function () {
+                var NumberService = $('#categoryId').val();
+          $.ajax({
+                type: "POST",
+                url: "/ListServices",
+                data: "IdCategory=" + NumberService,
+                dataType: "html",
+                cache: false,
+                success: function (data) {
+             if (data == "") data = "<option value=\"167\">&mdash;</option>";
+                    $("#serviceId").html(data);
+                }
+            });
+
+                      });
+
+        var choiceDate = 1;
+        $('#dateId').change(function () {
+            var FirstName = "";
+            var SecondName = "";
+            var FirstId = "";
+            var SecondId = "";
+            var placeOne = "";
+            var plcaeTwo = "";
+            var valueSelectDate = $('#dateId').val();
+
+            switch (valueSelectDate) {
+                case '1':
+                    {
+                        FirstId = "date_exeq_beginId"; SecondId = "time_exeq_beginId";
+                        FirstName = "date_exeq_begin"; SecondName = "time_exeq_begin";
+                        placeOne = "Дата"; plcaeTwo = "Время";
+                    }
+                    break;
+                case '2':
+                    {
+                        FirstId = "date_exeq_endId"; SecondId = "time_exeq_endId";
+                        FirstName = "date_exeq_end"; SecondName = "time_exeq_end";
+                        placeOne = "Дата"; plcaeTwo = "Время";
+                    }
+                    break;
+                case '3':
+                    {
+                        FirstId = "date_beginId"; SecondId = "date_endId";
+                        FirstName = "date_begin"; SecondName = "date_end";
+                        placeOne = "Дата (От)"; plcaeTwo = "Дата (До)";
+                    }
+                    break;
+            }
+            $("#timeContainer").html(
+                '<div class="row">\
+                  <div class="col-sm-2" >\
+                   <div class="form-group">\
+                     <input type="text" class="form-control" id="'+ FirstId + '" name="' + FirstName + '" placeholder="' + placeOne +'" required tabindex="3"/>\
+                   </div>\
+                  </div>\
+                 </div>\
+                 <div class="row" >\
+                  <div class="col-sm-2" >\
+                   <div class="form-group">\
+                     <input type="text" class="form-control" id="'+ SecondId + '" name="' + SecondName + '" placeholder="' + plcaeTwo +'" required tabindex="4"/>\
+                   </div>\
+                  </div>\
+                 </div> ');
+            datetime();
+        });
+
+    </script>
+
+
+<div id="resultReg" class="row">
+    <div class="row">
+        <div id="center_div" class="center-div" style="display: none">
+            <div class="cssload-thecube" id="loading">
+                <div class="cssload-cube cssload-c1"></div>
+                <div class="cssload-cube cssload-c2"></div>
+                <div class="cssload-cube cssload-c4"></div>
+                <div class="cssload-cube cssload-c3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function OnSuccess() {
+
+        $("#center_div").toggle();
+        $("#resultReg").removeClass("loading-div");
+        $('#myModal').modal('toggle')
+        $("#form1")[0].reset();
+    }
+    function OnBegin() {
+
+        $("#resultReg").addClass("loading-div");
+        $("#center_div").toggle();
+       /* $("#resultReg").html('<div class="cssload-thecube" id="loading" style="position: absolute; z-index: 10;">\
+            <div class="cssload-cube cssload-c1"></div>\
+            <div class="cssload-cube cssload-c2"></div>\
+            <div class="cssload-cube cssload-c4"></div>\
+            <div class="cssload-cube cssload-c3"></div>\
+        </div>');*/
+     
+        
+        
+    }
+</script>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+                <p style="font-size: 22px;">Ваше задание будет опубликовано после проверки модераторами!</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+            </div>
+        </div>
+    </div>
+</div>
+        }
+    }

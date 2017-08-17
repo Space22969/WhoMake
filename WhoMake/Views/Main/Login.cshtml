@@ -1,0 +1,76 @@
+﻿<div class="wrapper">
+ 
+@using (Ajax.BeginForm("LoginAnswer", null, new AjaxOptions
+{
+    OnBegin = "OnBegin",
+    LoadingElementId = "loading",
+    LoadingElementDuration = 1000,
+    OnSuccess = "OnSuccess",
+    UpdateTargetId = "resultReg"
+
+},  new { @class = "form-signin", id = "form1" }))
+{
+
+        <h2 class="form-signin-heading">Вход на сайт</h2>
+
+
+        <input type="text" class="form-control" name="username" placeholder="Email" required="" autofocus="" />
+        <input type="password" class="form-control" name="password" placeholder="Пароль" required="" />
+        <label class="checkbox">
+            <input type="checkbox" id="RememberMe" name="RememberMe">Запомнить
+        </label>
+        <button class="btn-lg flat-butt flat-info-butt btn-block" type="submit">Вход</button>
+        <div class="form-group">
+            <div class="col-md-12">
+                <div id="resultReg">
+
+                </div>
+            </div>
+        </div>
+}
+    </div>
+
+<script>
+    function OnSuccess() {
+
+
+        if ($("#resultReg").has("p").text().length == 1) {
+            setTimeout(function () {
+                $(location).attr('href', "@Url.Action("Index", "Main")");
+
+            }, 100);
+        }
+        else {
+            $("#resultReg").addClass("resultLog");
+        }
+
+    }
+    function OnBegin() {
+
+            if ($("#resultReg").has("p")) {
+
+                $("#resultReg").animate({
+                    opacity: 0
+                }, 5000, function () {
+
+                    $("#resultReg").empty();
+                    $("#resultReg").removeClass("resultLog");
+                    $("#resultReg").css("opacity", 1);
+                });
+
+
+
+                $("#resultReg").append('<div class="cssload-thecube" id="loading" style="display:none;">\
+            <div class="cssload-cube cssload-c1"></div>\
+            <div class="cssload-cube cssload-c2"></div>\
+            <div class="cssload-cube cssload-c4"></div>\
+            <div class="cssload-cube cssload-c3"></div>\
+        </div>');
+            }
+
+    }
+</script>
+
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/messages_ru.js"></script>
+<script src="~/Scripts/ValidationFormScript.js"></script>

@@ -1,0 +1,26 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>TestCaptcha</title>
+</head>
+<body>
+    <form method="POST">
+        <img src="@Url.Action("Captcha", "Main")" onclick="this.src = this.src.split('?')[0] + '?' + new Date()" style="cursor: pointer;" title="Обновить" />
+        <div class="form-group">
+            <label class="col-md-3 control-label">Введите код на картинке</label>
+            <div class="col-md-9">
+                <input name="captcha" type="text" class="form-control" />
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-3 col-md-9">
+                <button type="submit" class="btn btn-default">Проверить</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

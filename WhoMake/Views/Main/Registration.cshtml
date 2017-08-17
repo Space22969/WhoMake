@@ -1,0 +1,158 @@
+﻿
+
+
+<div class="wrapper">
+
+  <!--  <form class="form-reg form-horizontal" id="form1">-->
+    @using (Ajax.BeginForm("RegisAnswer", null, new AjaxOptions
+    {
+        OnBegin = "OnBegin",
+        LoadingElementId = "loading",
+        LoadingElementDuration = 1000,
+        OnSuccess = "OnSuccess",
+        UpdateTargetId = "resultRegMes"
+
+    },
+    new { @class = "form-reg form-horizontal", id = "form1" }))
+    {
+            <fieldset>
+                    <h2 class="form-signin-heading">Регистрация</h2>
+                    <div class="form-group">
+                        <div class="col-md-5 col-md-offset-3">
+                            <div id="resultRegMes">
+                        </div>
+                        </div>
+                        </div>
+                        <!-- First Name input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Email">Имя:</label>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input id="Name" name="Name" type="text" placeholder="Введите ваше имя" class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Second Name input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Email">Фамилия:</label>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input id="SecName" name="SecName" type="text" placeholder="Введите вашу фамилию" class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <!-- Email input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Email">Email:</label>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input id="Email" name="Email" type="text" placeholder="Введите электронную почту" class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Password">Пароль:</label>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input id="password" name="password" type="password" placeholder="Введите ваш пароль" class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Password input-->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="ConfirmPassword">Подтверждение пароля:</label>
+                            <div class="col-md-3">
+                                <div class="input-group">
+                                    <input id="password_again" name="password_again" type="password" placeholder="Введите ваш пароль ещё раз" class="form-control input-md">
+                                </div>
+                            </div>
+                        </div>
+           
+                <div class="form-group">
+                    <label class="col-md-4 control-label" for="ConfirmPassword"></label>
+                    <div class="col-md-3">
+                        <div class="input-group">
+                            <div class="g-recaptcha" data-sitekey="6LehDy0UAAAAAH3NEG6A_vXxXhze7Jx32PziIK6B"></div>
+                            <input type="hidden" id="hiddenrecapctha" name="hiddenrecapctha" />
+                        </div>
+                    </div>
+                </div>
+
+
+                        <!-- Button -->
+                        <div class="form-group">
+                            <label class="col-md-4 control-label" for="Submit"></label>
+                            <div class="col-md-3">
+                                <button id="Submit" class="btn-lg flat-butt flat-info-butt btn-block"  type ="submit">Зарегистрироваться</button>
+                            </div>
+                        </div>
+
+</fieldset>
+    }
+    <!--</form>-->
+        </div>
+
+<!--loading-div-->
+<!--center-div-->
+<div id="resultReg" class="row">
+    <div class="row">
+        <div id="center_div" class="center-div" style="display: none">
+            <div class="cssload-thecube" id="loading">
+                <div class="cssload-cube cssload-c1"></div>
+                <div class="cssload-cube cssload-c2"></div>
+                <div class="cssload-cube cssload-c4"></div>
+                <div class="cssload-cube cssload-c3"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function OnSuccess() {
+
+        $("#center_div").toggle();
+        $("#resultReg").removeClass("loading-div");
+        $("#resultRegMes").addClass("resultReg");
+        if ($("#resultRegMes").has("p").text().indexOf("существует") == -1) {
+            setTimeout(function () {
+                $(location).attr('href', "@Url.Action("Login", "Main")");
+
+            }, 5000);
+        }
+        else {
+            $("#resultRegMes").addClass("resultReg");
+            $("#resultRegMes").animate({
+                opacity: 0
+            }, 7000, function () {
+
+                $("#resultRegMes").empty();
+                $("#resultRegMes").removeClass("resultReg");
+                $("#resultRegMes").css("opacity", 1);
+            });
+        }
+        
+    }
+    function OnBegin() {
+
+        $("#resultReg").addClass("loading-div");
+        $("#center_div").toggle();
+       /* $("#resultReg").html('<div class="cssload-thecube" id="loading" style="position: absolute; z-index: 10;">\
+            <div class="cssload-cube cssload-c1"></div>\
+            <div class="cssload-cube cssload-c2"></div>\
+            <div class="cssload-cube cssload-c4"></div>\
+            <div class="cssload-cube cssload-c3"></div>\
+        </div>');*/
+     
+        
+        
+    }
+</script>
+<script src="~/Scripts/jquery.validate.js"></script>
+<script src="~/Scripts/messages_ru.js"></script>
+<script src="~/Scripts/ValidationFormScript.js"></script>

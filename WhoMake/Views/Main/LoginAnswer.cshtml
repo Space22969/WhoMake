@@ -1,0 +1,12 @@
+﻿@{
+    string style = "";
+    if (ViewBag.AnswerType == "error")
+    { style = "font-size: 22px;color:#ff4e4e;"; }
+    else
+    {
+        if (ViewBag.AnswerType == "success")
+        { style = "display:none;"; }
+    }
+
+    ViewData["TypeError"] = ViewBag.AnswerType;
+}<p style="@style">@ViewBag.AnswerLogin</p> 

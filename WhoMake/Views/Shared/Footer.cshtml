@@ -1,0 +1,39 @@
+﻿@{
+    Layout = "";
+}
+
+<footer class="footer-distributed">
+    <script>
+
+        // $(document).ready(function () {
+        if ($(".body-content").height() < 700) {
+            $(".footer-distributed").addClass("bottom_footer");
+            //ExistScroll();
+            DealWithIt();
+
+
+
+
+        }
+  
+        //  });
+
+        function DealWithIt() {
+            var offset = $(".footer-distributed").offset();
+           
+            $(".background").css("height", offset.top + 'px');
+            $(".loading_background").css("height", offset.top + 'px');
+        }
+    </script>
+    <div class="footer-right">
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <a href="#"><i class="fa fa-twitter"></i></a>
+        <a href="#"><i class="fa fa-linkedin"></i></a>
+        <a href="#"><i class="fa fa-github"></i></a>
+    </div>
+    <div class="footer-left">
+        <p>Company Name &copy; 2017</p>
+    </div>
+</footer>
+
+
