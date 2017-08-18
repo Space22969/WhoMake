@@ -27,10 +27,21 @@ namespace DataBase.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
         [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=whomake_database_on;Persist Security Info=T" +
-            "rue;User ID=sa")]
+            "rue;User ID=sa;Password=90963555aSd")]
         public string whomake_database_onConnectionString {
             get {
                 return ((string)(this["whomake_database_onConnectionString"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=localhost;Initial Catalog=whomake_database_on;Persist Security Info=T" +
+            "rue;User ID=sa")]
+        public string whomake_database_onConnectionString1 {
+            get {
+                return ((string)(this["whomake_database_onConnectionString1"]));
             }
         }
     }

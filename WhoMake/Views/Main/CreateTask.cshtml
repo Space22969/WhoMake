@@ -21,7 +21,7 @@
             OnSuccess = "OnSuccess"
 
         },
-                                            new { @class = "form-reg form-horizontal", id = "form1" }))
+                                            new { @class = "form-reg form-horizontal", id = "TaskForm" }))
         {
 
     <h1 class="item-form__title">Основная информация</h1>
@@ -30,15 +30,9 @@
                 <div class="form-group">
                     <label class="control-label">Выберите вид услуги:</label>
                     <br />
-                    <select name="category_id" id="categoryId" title="Выберите категорию" class="selectpicker" required tabindex="1">
-                        @{ 
-                            ///foreach (var category in collection)
-                           // {
-
-                           // }
-                        }
-                        <option value="3">Выполнить в период</option>
-                    </select>
+                    <div id="ListCategories">
+                        @{Html.RenderAction("CategoriesList");}
+                        </div>
                 </div>
 
 
@@ -46,11 +40,11 @@
                 <div class="form-group">
                     <label class="control-label">Выберите категорию:</label>
                     <br />
-                    <select name="service_id" id="serviceId" title="Выберите вид услуги" class="selectpicker" required tabindex="2">
-                        <option value="1">Начать</option>
-                        <option value="2">Завершить</option>
-                        <option value="3">Выполнить в период</option>
-                    </select>
+                    <div id="ListServices">
+                        <select name="service_id" id="serviceId" title="Выберите вид услуги" class="form-control" required tabindex="2">
+                            <option value="">Выберите...</option>
+                        </select>
+                        </div>
                     </div>
 
                     <div class="form-group">
@@ -59,7 +53,7 @@
                         <input type="text"
                                style="width:300px;"
                                id="titleId"
-                               class="col-6 js-title__field"
+                               class="form-control"
                                name="title_id"
                                value=""
                                maxlength="50"
@@ -67,7 +61,23 @@
                                data-initial-autosuggest="off" />
                     </div>
 
+                    <script>
+                        $('#categoryId').change(function () {
+              var NumberCategory = $('#categoryId').val();
+                        $.ajax({
+                type: "POST",
+                url: "ServicesList",
+                data: "id=" + NumberCategory,
+                dataType: "html",
+                cache: false,
+                success: function (data) {
+                    if (data == "") data = "<option value=\"\">Выберите...</option>";
+                        $("#serviceId").html(data);
+                }
+            });
+                        });
 
+                    </script>
 
         <div class="form-group">
             <label class="control-label">Описание объявления:</label>
@@ -93,7 +103,7 @@
 
                         //Доставать данные - alert($('#summernote').summernote('code'));
             </script>
-
+            <input type="hidden" id="description" name="description" />
         </div>
 
                     <div class="form-group">
@@ -120,17 +130,17 @@
 
                                 <div class="row">
                                     <div class='col-sm-2'>
-                                        <div class="form-group">
+                                        <!--<div class="form-group">-->
                                             <input type='text' class="form-control" id='date_exeq_beginId' name="date_exeq_begin" placeholder="Дата" required tabindex="3"/>
-                                        </div>
+                                        <!--</div>-->
                                     </div>
                                 </div>
-
+                                <br />
                                 <div class="row">
                                     <div class='col-sm-2'>
-                                        <div class="form-group">
+                                        <!--<div class="form-group">-->
                                             <input type='text' class="form-control" id='time_exeq_beginId' name="time_exeq_beginId" placeholder="Время" required tabindex="4"/>
-                                        </div>
+                                        <!--</div>-->
                                     </div>
                                 </div>
                             </div>                      
@@ -181,7 +191,7 @@
             <br />
             <input type="text" style="width:300px;"
                    id="adresId"
-                   class="col-6 js-title__field"
+                   class="form-control"
                    name="adres_id"
                    value=""
                    maxlength="50"
@@ -196,7 +206,7 @@
             <br />
             <input style="width:30%;" type="tel"
                    id="phoneId"
-                   class="col-6 js-title__field"
+                   class="form-control"
                    name="phone_id"
                    value=""
                    maxlength="16"
@@ -213,21 +223,21 @@
 
         }
     <script>
-                      $('#categoryId').change(function () {
-                var NumberService = $('#categoryId').val();
-          $.ajax({
-                type: "POST",
-                url: "/ListServices",
-                data: "IdCategory=" + NumberService,
-                dataType: "html",
-                cache: false,
-                success: function (data) {
-             if (data == "") data = "<option value=\"167\">&mdash;</option>";
-                    $("#serviceId").html(data);
-                }
-            });
+          //            $('#categoryId').change(function () {
+          //      var NumberService = $('#categoryId').val();
+          //$.ajax({
+          //      type: "POST",
+          //      url: "/ListServices",
+          //      data: "IdCategory=" + NumberService,
+          //      dataType: "html",
+          //      cache: false,
+          //      success: function (data) {
+          //   if (data == "") data = "<option value=\"167\">&mdash;</option>";
+          //          $("#serviceId").html(data);
+          //      }
+          //  });
 
-                      });
+          //            });
 
         var choiceDate = 1;
         $('#dateId').change(function () {
@@ -265,16 +275,12 @@
             $("#timeContainer").html(
                 '<div class="row">\
                   <div class="col-sm-2" >\
-                   <div class="form-group">\
                      <input type="text" class="form-control" id="'+ FirstId + '" name="' + FirstName + '" placeholder="' + placeOne +'" required tabindex="3"/>\
-                   </div>\
                   </div>\
-                 </div>\
+                 </div><br>\
                  <div class="row" >\
                   <div class="col-sm-2" >\
-                   <div class="form-group">\
                      <input type="text" class="form-control" id="'+ SecondId + '" name="' + SecondName + '" placeholder="' + plcaeTwo +'" required tabindex="4"/>\
-                   </div>\
                   </div>\
                  </div> ');
             datetime();

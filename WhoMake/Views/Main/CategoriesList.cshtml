@@ -1,0 +1,10 @@
+﻿<select name="category_id" id="categoryId" title="Выберите категорию" class="form-control" tabindex="1">
+    <option value="">Выберите...</option>
+    @{
+        foreach (var Category in Model)
+        {
+              <option value = "@Category.category_id" > @Category.category_name </option>
+              }
+
+    }
+</select>

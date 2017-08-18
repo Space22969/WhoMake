@@ -2,30 +2,35 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.SessionState;
-using System.Net;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using Calabonga.Mvc.Extensions;
-using Recaptcha.Web.Mvc;
-using System.Web.UI;
-using System.IO;
-using CaptchaMvc;
+using DataBase;
+using System.Data.Linq;
+using System.Linq;
+using System.Configuration;
+
 namespace WhoMake.Controllers
 {
     public class MainController : Controller
     {
+  
+        DataClassesDataContext context = new DataClassesDataContext(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
+
         static public string Session_Id;
         static public string UserName;
         static public bool CookieAuth;
         string DbConnect = @"Data Source=localhost;
                             Initial Catalog=whomake_database_on;
                             Integrated Security=False;User ID=sa;Password=90963555aSd;";
+
+        protected override void Dispose(bool disposing)
+        {
+           // base.Dispose();
+            context.Dispose();
+        }
+
         public ActionResult Index()
         {
             
@@ -41,9 +46,21 @@ namespace WhoMake.Controllers
 
         public ActionResult Contact()
         {
-            ViewBag.Message = "Your application description page.";
-
+         
             return View();
+        }
+
+        public ActionResult ServicesList(string id)
+        {
+                 var services = context.services.Where(x =>x.services_id_category == Convert.ToInt32(id)).ToList();
+
+            return PartialView(services);
+        }
+
+        public ActionResult CategoriesList()
+        {
+            var categories = context.category.ToList();
+            return PartialView(categories);
         }
 
         public ActionResult Head()

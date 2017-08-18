@@ -1,0 +1,131 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="whomake_database_on" Class="DataClassesDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=localhost;Initial Catalog=whomake_database_on;Persist Security Info=True;User ID=sa" SettingsObjectName="DataBase.Properties.Settings" SettingsPropertyName="whomake_database_onConnectionString1" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.bought_task" Member="bought_task">
+    <Type Name="bought_task">
+      <Column Name="bought_task_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="bought_task_id_person" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="bought_task_id_task" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.users" Member="users">
+    <Type Name="users">
+      <Column Name="users_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="users_name" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="users_secname" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="users_pass" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="users_email" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="users_money" Type="System.Double" DbType="Float" CanBeNull="true" />
+      <Column Name="users_accept" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="users_regdate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="users_ip" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="users_ban" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.category" Member="category">
+    <Type Name="category">
+      <Column Name="category_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="category_name" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="category_price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.category_performers" Member="category_performers">
+    <Type Name="category_performers">
+      <Column Name="cat_perf_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="category_performers_id_person" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="category_performers_id_category" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.offer_tasks" Member="offer_tasks">
+    <Type Name="offer_tasks">
+      <Column Name="offer_tasks_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="offer_tasks_id_person" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="offer_tasks_id_task" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="offer_tasks_id_who" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="offer_tasks_name" Type="System.String" DbType="VarChar(350)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.operations_history" Member="operations_history">
+    <Type Name="operations_history">
+      <Column Name="operations_history_id" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="operations_history_id_person" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="operations_history_sum" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="operations_history_date" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="operations_history_id_task" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="operations_history_raise" Type="System.Int32" DbType="Int" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.performers" Member="performers">
+    <Type Name="performers">
+      <Column Name="performers_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="performers_name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="performers_secname" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="performers_age" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="performers_photo" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+      <Column Name="performers_yourself" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="performers_services" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="performers_works" Type="System.String" DbType="VarChar(1000)" CanBeNull="true" />
+      <Column Name="performers_phone" Type="System.String" DbType="VarChar(15)" CanBeNull="true" />
+      <Column Name="performers_email" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="performers_id_person" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="performers_status" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="performers_money" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="performers_viewes" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="performers_datereg" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="performers_last" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.red_admin_red" Member="red_admin_red">
+    <Type Name="red_admin_red">
+      <Column Name="red_admin_red_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="red_admin_red_email" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="red_admin_red_pass" Type="System.String" DbType="VarChar(500)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.services" Member="services">
+    <Type Name="services">
+      <Column Name="services_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="services_id_category" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="services_name" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.session" Member="session">
+    <Type Name="session">
+      <Column Name="id_session" Type="System.String" DbType="VarChar(200)" CanBeNull="true" />
+      <Column Name="putdate" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Column Name="[user]" Member="user" Type="System.String" DbType="VarChar(100)" CanBeNull="true" />
+      <Column Name="ip" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+    </Type>
+  </Table>
+  <Table Name="dbo.tasks" Member="tasks">
+    <Type Name="tasks">
+      <Column Name="tasks_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="tasks_id_person" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_category" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_service" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_name" Type="System.String" DbType="VarChar(350) NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_description" Type="System.String" DbType="VarChar(1000) NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_phone" Type="System.String" DbType="VarChar(16) NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_date_begin" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_date_end" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_date_exeq_begin" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_time_exeq_begin" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_date_exeq_end" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_time_exeq_end" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_adres" Type="System.String" DbType="VarChar(350) NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_name_person" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_secname_person" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_creation" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_status" Type="System.String" DbType="VarChar(100) NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_views" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_money" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+  <Table Name="dbo.uploads_images" Member="uploads_images">
+    <Type Name="uploads_images">
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="person_id" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="image" Type="System.String" DbType="VarChar(255) NOT NULL" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>

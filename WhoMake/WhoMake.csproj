@@ -60,6 +60,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -321,6 +322,8 @@
     <Content Include="Views\Main\Logout.cshtml" />
     <Content Include="Views\Main\CreateTask.cshtml" />
     <Content Include="Views\Main\TestCaptcha.cshtml" />
+    <Content Include="Views\Main\ServicesList.cshtml" />
+    <Content Include="Views\Main\CategoriesList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -330,6 +333,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataBase\DataBase.csproj">
+      <Project>{6f3d137b-bf28-430d-8b7d-a710d75b7c52}</Project>
+      <Name>DataBase</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

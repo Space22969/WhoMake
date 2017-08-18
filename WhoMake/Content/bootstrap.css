@@ -1937,6 +1937,18 @@ textarea.input-lg {
   width:220px;
 }
 
+.Create-help-block {
+    color: red;
+    display: block;
+    margin-top: 5px;
+    /*margin-bottom: 10px;*/
+    position: absolute;
+    margin-left: 350px;
+    margin-top: -30px;
+    width: 220px;
+}
+
+
 @media (min-width: 768px) {
   .form-inline .form-group {
     display: inline-block;

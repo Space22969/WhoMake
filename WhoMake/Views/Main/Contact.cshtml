@@ -5,3 +5,11 @@
 <h3>@ViewBag.Message</h3>
 
 <p>Use this area to provide additional information.</p>
+
+@{ 
+    var temp = Model[0];
+    foreach (var item in temp)
+    {
+        Write(item.users_name.ToString());
+    }
+}
