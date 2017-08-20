@@ -13,6 +13,17 @@ namespace WhoMake
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
+            routes.MapRoute(
+            name: "Tasks",
+            url: "{action}/{id}",
+            defaults: new { controller = "Main", action = "Tasks",
+                category_id = UrlParameter.Optional,
+                service_id = UrlParameter.Optional,
+                name = UrlParameter.Optional }
+        );
+
+
             routes.MapRoute(
                 name: "Default",
                 url: "{action}/{id}",

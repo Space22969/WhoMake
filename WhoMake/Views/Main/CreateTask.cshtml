@@ -1,7 +1,7 @@
 ﻿@{ 
 
 
-    if ((Session["UserName"] == null || (string)Session["UserName"] == "") ||(Session["CookieOmnOmn"] == null || (string)Session["CookieOmnOmn"] == ""))
+    if (Session["UserName"] == null || (string)Session["UserName"] == "")
     { 
         <div class="form-reg form-horizontal">
             <div class="row">
@@ -25,6 +25,7 @@
         {
 
     <h1 class="item-form__title">Основная информация</h1>
+    @DateTime.Now.ToString();
         <hr align="left" width="100%" size="1" color="#292C2F" /><br>
 
                 <div class="form-group">
@@ -71,8 +72,10 @@
                 dataType: "html",
                 cache: false,
                 success: function (data) {
-                    if (data == "") data = "<option value=\"\">Выберите...</option>";
-                        $("#serviceId").html(data);
+                            if (data == "") data = '<select name="service_id" id="serviceId" title="Выберите вид услуги" class="form- control" required tabindex="2">\
+                                                    < option value= "" > Выберите...</option>\
+                                                    </select>';
+                        $("#ListServices").html(data);
                 }
             });
                         });
@@ -81,7 +84,9 @@
 
         <div class="form-group">
             <label class="control-label">Описание объявления:</label>
-            <div id="summernote"></div>
+            <!--<div id="summernote"></div>-->
+            <textarea class="form-control" id="summernote" name="description" rows="18">
+					</textarea>
             <script>
                 $(document).ready(function () {
                     $('#summernote').summernote({
@@ -99,6 +104,8 @@
                         placeholder: 'Опишите пожелания и детали, чтобы исполнители лучше оценили вашу задачу. Укажите полное описание задачи, пример желаемого результата, дополнительные требования к исполнителю, сроки выполнения заказа, условия оплаты.'
 
                     });
+
+  
                 });
 
                         //Доставать данные - alert($('#summernote').summernote('code'));
@@ -150,15 +157,16 @@
                 <script type="text/javascript">
                       var datetime = function () {
                           $(function () {
-                              $("#date_exeq_beginId").datetimepicker({ format: 'YYYY-MM-DD', locale: 'ru' });
-                              $("#time_exeq_beginId").datetimepicker({ format: 'hh-mm', locale: 'ru'});
+                              
+                              $("#date_exeq_beginId").datetimepicker({ format: 'DD.MM.YYYY', locale: 'ru' });
+                              $("#time_exeq_beginId").datetimepicker({ format: 'hh:mm', locale: 'ru'});
 
-                              $("#date_exeq_endId").datetimepicker({ format: 'YYYY-MM-DD', locale: 'ru' });
-                              $("#time_exeq_endId").datetimepicker({ format: 'hh-mm', locale: 'ru' });
+                              $("#date_exeq_endId").datetimepicker({ format: 'DD.MM.YYYY', locale: 'ru' });
+                              $("#time_exeq_endId").datetimepicker({ format: 'hh:mm', locale: 'ru' });
 
-                              $("#date_beginId").datetimepicker({ format: 'YYYY-MM-DD', locale: 'ru'  });
+                              $("#date_beginId").datetimepicker({ format: 'DD.MM.YYYY', locale: 'ru'  });
 
-                              $("#date_endId").datetimepicker({ useCurrent: false, format: 'YYYY-MM-DD', locale: 'ru'  });
+                              $("#date_endId").datetimepicker({ useCurrent: false, format: 'DD.MM.YYYY', locale: 'ru'  });
 
                               $("#date_beginId").on("dp.change", function (e) {
                                   $("#date_endId").data("DateTimePicker").minDate(e.date);
@@ -310,7 +318,7 @@
         $("#form1")[0].reset();
     }
     function OnBegin() {
-
+        var content = $('textarea[name="description"]').html($('#summernote').summernote('code'));
         $("#resultReg").addClass("loading-div");
         $("#center_div").toggle();
        /* $("#resultReg").html('<div class="cssload-thecube" id="loading" style="position: absolute; z-index: 10;">\
@@ -319,10 +327,20 @@
             <div class="cssload-cube cssload-c4"></div>\
             <div class="cssload-cube cssload-c3"></div>\
         </div>');*/
-     
-        
-        
+
+
+
     }
+
+    var ToIndex = function () {
+
+         setTimeout(function () {
+                $(location).attr('href', "@Url.Action("Index", "Main")");
+
+            }, 2000);
+    }
+
+
 </script>
 <!-- Modal -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -332,7 +350,7 @@
                 <p style="font-size: 22px;">Ваше задание будет опубликовано после проверки модераторами!</p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-default" onclick="ToIndex()" data-dismiss="modal">Закрыть</button>
             </div>
         </div>
     </div>

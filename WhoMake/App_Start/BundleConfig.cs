@@ -38,7 +38,8 @@ namespace WhoMake
                       "~/Content/font-awesome.min.css",
                       "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/bootstrap-select.css",
-                      "~/Content/summernote.css"));
+                      "~/Content/summernote.css",
+                      "~/Content/PagedList.css"));
         }
     }
 }

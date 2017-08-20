@@ -30,6 +30,9 @@ namespace DataBase
 		
     #region Определения метода расширяемости
     partial void OnCreated();
+    partial void Inserttasks(tasks instance);
+    partial void Updatetasks(tasks instance);
+    partial void Deletetasks(tasks instance);
     #endregion
 		
 		public DataClassesDataContext() : 
@@ -1258,8 +1261,10 @@ namespace DataBase
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tasks")]
-	public partial class tasks
+	public partial class tasks : INotifyPropertyChanging, INotifyPropertyChanged
 	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
 		private int _tasks_id;
 		
@@ -1277,17 +1282,17 @@ namespace DataBase
 		
 		private string _tasks_phone;
 		
-		private System.DateTime _tasks_date_begin;
+		private System.Nullable<System.DateTime> _tasks_date_begin;
 		
-		private System.DateTime _tasks_date_end;
+		private System.Nullable<System.DateTime> _tasks_date_end;
 		
-		private System.DateTime _tasks_date_exeq_begin;
+		private System.Nullable<System.DateTime> _tasks_date_exeq_begin;
 		
-		private System.TimeSpan _tasks_time_exeq_begin;
+		private System.Nullable<System.TimeSpan> _tasks_time_exeq_begin;
 		
-		private System.DateTime _tasks_date_exeq_end;
+		private System.Nullable<System.DateTime> _tasks_date_exeq_end;
 		
-		private System.TimeSpan _tasks_time_exeq_end;
+		private System.Nullable<System.TimeSpan> _tasks_time_exeq_end;
 		
 		private string _tasks_adres;
 		
@@ -1303,11 +1308,60 @@ namespace DataBase
 		
 		private int _tasks_money;
 		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void Ontasks_idChanging(int value);
+    partial void Ontasks_idChanged();
+    partial void Ontasks_id_personChanging(int value);
+    partial void Ontasks_id_personChanged();
+    partial void Ontasks_categoryChanging(int value);
+    partial void Ontasks_categoryChanged();
+    partial void Ontasks_serviceChanging(int value);
+    partial void Ontasks_serviceChanged();
+    partial void Ontasks_nameChanging(string value);
+    partial void Ontasks_nameChanged();
+    partial void Ontasks_descriptionChanging(string value);
+    partial void Ontasks_descriptionChanged();
+    partial void Ontasks_priceChanging(int value);
+    partial void Ontasks_priceChanged();
+    partial void Ontasks_phoneChanging(string value);
+    partial void Ontasks_phoneChanged();
+    partial void Ontasks_date_beginChanging(System.Nullable<System.DateTime> value);
+    partial void Ontasks_date_beginChanged();
+    partial void Ontasks_date_endChanging(System.Nullable<System.DateTime> value);
+    partial void Ontasks_date_endChanged();
+    partial void Ontasks_date_exeq_beginChanging(System.Nullable<System.DateTime> value);
+    partial void Ontasks_date_exeq_beginChanged();
+    partial void Ontasks_time_exeq_beginChanging(System.Nullable<System.TimeSpan> value);
+    partial void Ontasks_time_exeq_beginChanged();
+    partial void Ontasks_date_exeq_endChanging(System.Nullable<System.DateTime> value);
+    partial void Ontasks_date_exeq_endChanged();
+    partial void Ontasks_time_exeq_endChanging(System.Nullable<System.TimeSpan> value);
+    partial void Ontasks_time_exeq_endChanged();
+    partial void Ontasks_adresChanging(string value);
+    partial void Ontasks_adresChanged();
+    partial void Ontasks_name_personChanging(string value);
+    partial void Ontasks_name_personChanged();
+    partial void Ontasks_secname_personChanging(string value);
+    partial void Ontasks_secname_personChanged();
+    partial void Ontasks_creationChanging(System.DateTime value);
+    partial void Ontasks_creationChanged();
+    partial void Ontasks_statusChanging(string value);
+    partial void Ontasks_statusChanged();
+    partial void Ontasks_viewsChanging(int value);
+    partial void Ontasks_viewsChanged();
+    partial void Ontasks_moneyChanging(int value);
+    partial void Ontasks_moneyChanged();
+    #endregion
+		
 		public tasks()
 		{
+			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_id", AutoSync=AutoSync.Always, DbType="Int NOT NULL IDENTITY", IsDbGenerated=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int tasks_id
 		{
 			get
@@ -1318,7 +1372,11 @@ namespace DataBase
 			{
 				if ((this._tasks_id != value))
 				{
+					this.Ontasks_idChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_id = value;
+					this.SendPropertyChanged("tasks_id");
+					this.Ontasks_idChanged();
 				}
 			}
 		}
@@ -1334,7 +1392,11 @@ namespace DataBase
 			{
 				if ((this._tasks_id_person != value))
 				{
+					this.Ontasks_id_personChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_id_person = value;
+					this.SendPropertyChanged("tasks_id_person");
+					this.Ontasks_id_personChanged();
 				}
 			}
 		}
@@ -1350,7 +1412,11 @@ namespace DataBase
 			{
 				if ((this._tasks_category != value))
 				{
+					this.Ontasks_categoryChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_category = value;
+					this.SendPropertyChanged("tasks_category");
+					this.Ontasks_categoryChanged();
 				}
 			}
 		}
@@ -1366,7 +1432,11 @@ namespace DataBase
 			{
 				if ((this._tasks_service != value))
 				{
+					this.Ontasks_serviceChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_service = value;
+					this.SendPropertyChanged("tasks_service");
+					this.Ontasks_serviceChanged();
 				}
 			}
 		}
@@ -1382,7 +1452,11 @@ namespace DataBase
 			{
 				if ((this._tasks_name != value))
 				{
+					this.Ontasks_nameChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_name = value;
+					this.SendPropertyChanged("tasks_name");
+					this.Ontasks_nameChanged();
 				}
 			}
 		}
@@ -1398,7 +1472,11 @@ namespace DataBase
 			{
 				if ((this._tasks_description != value))
 				{
+					this.Ontasks_descriptionChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_description = value;
+					this.SendPropertyChanged("tasks_description");
+					this.Ontasks_descriptionChanged();
 				}
 			}
 		}
@@ -1414,7 +1492,11 @@ namespace DataBase
 			{
 				if ((this._tasks_price != value))
 				{
+					this.Ontasks_priceChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_price = value;
+					this.SendPropertyChanged("tasks_price");
+					this.Ontasks_priceChanged();
 				}
 			}
 		}
@@ -1430,13 +1512,17 @@ namespace DataBase
 			{
 				if ((this._tasks_phone != value))
 				{
+					this.Ontasks_phoneChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_phone = value;
+					this.SendPropertyChanged("tasks_phone");
+					this.Ontasks_phoneChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_date_begin", DbType="Date NOT NULL")]
-		public System.DateTime tasks_date_begin
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_date_begin", DbType="Date")]
+		public System.Nullable<System.DateTime> tasks_date_begin
 		{
 			get
 			{
@@ -1446,13 +1532,17 @@ namespace DataBase
 			{
 				if ((this._tasks_date_begin != value))
 				{
+					this.Ontasks_date_beginChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_date_begin = value;
+					this.SendPropertyChanged("tasks_date_begin");
+					this.Ontasks_date_beginChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_date_end", DbType="Date NOT NULL")]
-		public System.DateTime tasks_date_end
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_date_end", DbType="Date")]
+		public System.Nullable<System.DateTime> tasks_date_end
 		{
 			get
 			{
@@ -1462,13 +1552,17 @@ namespace DataBase
 			{
 				if ((this._tasks_date_end != value))
 				{
+					this.Ontasks_date_endChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_date_end = value;
+					this.SendPropertyChanged("tasks_date_end");
+					this.Ontasks_date_endChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_date_exeq_begin", DbType="Date NOT NULL")]
-		public System.DateTime tasks_date_exeq_begin
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_date_exeq_begin", DbType="Date")]
+		public System.Nullable<System.DateTime> tasks_date_exeq_begin
 		{
 			get
 			{
@@ -1478,13 +1572,17 @@ namespace DataBase
 			{
 				if ((this._tasks_date_exeq_begin != value))
 				{
+					this.Ontasks_date_exeq_beginChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_date_exeq_begin = value;
+					this.SendPropertyChanged("tasks_date_exeq_begin");
+					this.Ontasks_date_exeq_beginChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_time_exeq_begin", DbType="Time NOT NULL")]
-		public System.TimeSpan tasks_time_exeq_begin
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_time_exeq_begin", DbType="Time")]
+		public System.Nullable<System.TimeSpan> tasks_time_exeq_begin
 		{
 			get
 			{
@@ -1494,13 +1592,17 @@ namespace DataBase
 			{
 				if ((this._tasks_time_exeq_begin != value))
 				{
+					this.Ontasks_time_exeq_beginChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_time_exeq_begin = value;
+					this.SendPropertyChanged("tasks_time_exeq_begin");
+					this.Ontasks_time_exeq_beginChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_date_exeq_end", DbType="Date NOT NULL")]
-		public System.DateTime tasks_date_exeq_end
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_date_exeq_end", DbType="Date")]
+		public System.Nullable<System.DateTime> tasks_date_exeq_end
 		{
 			get
 			{
@@ -1510,13 +1612,17 @@ namespace DataBase
 			{
 				if ((this._tasks_date_exeq_end != value))
 				{
+					this.Ontasks_date_exeq_endChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_date_exeq_end = value;
+					this.SendPropertyChanged("tasks_date_exeq_end");
+					this.Ontasks_date_exeq_endChanged();
 				}
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_time_exeq_end", DbType="Time NOT NULL")]
-		public System.TimeSpan tasks_time_exeq_end
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_tasks_time_exeq_end", DbType="Time")]
+		public System.Nullable<System.TimeSpan> tasks_time_exeq_end
 		{
 			get
 			{
@@ -1526,7 +1632,11 @@ namespace DataBase
 			{
 				if ((this._tasks_time_exeq_end != value))
 				{
+					this.Ontasks_time_exeq_endChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_time_exeq_end = value;
+					this.SendPropertyChanged("tasks_time_exeq_end");
+					this.Ontasks_time_exeq_endChanged();
 				}
 			}
 		}
@@ -1542,7 +1652,11 @@ namespace DataBase
 			{
 				if ((this._tasks_adres != value))
 				{
+					this.Ontasks_adresChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_adres = value;
+					this.SendPropertyChanged("tasks_adres");
+					this.Ontasks_adresChanged();
 				}
 			}
 		}
@@ -1558,7 +1672,11 @@ namespace DataBase
 			{
 				if ((this._tasks_name_person != value))
 				{
+					this.Ontasks_name_personChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_name_person = value;
+					this.SendPropertyChanged("tasks_name_person");
+					this.Ontasks_name_personChanged();
 				}
 			}
 		}
@@ -1574,7 +1692,11 @@ namespace DataBase
 			{
 				if ((this._tasks_secname_person != value))
 				{
+					this.Ontasks_secname_personChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_secname_person = value;
+					this.SendPropertyChanged("tasks_secname_person");
+					this.Ontasks_secname_personChanged();
 				}
 			}
 		}
@@ -1590,7 +1712,11 @@ namespace DataBase
 			{
 				if ((this._tasks_creation != value))
 				{
+					this.Ontasks_creationChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_creation = value;
+					this.SendPropertyChanged("tasks_creation");
+					this.Ontasks_creationChanged();
 				}
 			}
 		}
@@ -1606,7 +1732,11 @@ namespace DataBase
 			{
 				if ((this._tasks_status != value))
 				{
+					this.Ontasks_statusChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_status = value;
+					this.SendPropertyChanged("tasks_status");
+					this.Ontasks_statusChanged();
 				}
 			}
 		}
@@ -1622,7 +1752,11 @@ namespace DataBase
 			{
 				if ((this._tasks_views != value))
 				{
+					this.Ontasks_viewsChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_views = value;
+					this.SendPropertyChanged("tasks_views");
+					this.Ontasks_viewsChanged();
 				}
 			}
 		}
@@ -1638,8 +1772,32 @@ namespace DataBase
 			{
 				if ((this._tasks_money != value))
 				{
+					this.Ontasks_moneyChanging(value);
+					this.SendPropertyChanging();
 					this._tasks_money = value;
+					this.SendPropertyChanged("tasks_money");
+					this.Ontasks_moneyChanged();
 				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
 	}

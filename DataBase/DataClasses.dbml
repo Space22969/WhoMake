@@ -98,7 +98,7 @@
   </Table>
   <Table Name="dbo.tasks" Member="tasks">
     <Type Name="tasks">
-      <Column Name="tasks_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="tasks_id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
       <Column Name="tasks_id_person" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="tasks_category" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="tasks_service" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
@@ -106,12 +106,12 @@
       <Column Name="tasks_description" Type="System.String" DbType="VarChar(1000) NOT NULL" CanBeNull="false" />
       <Column Name="tasks_price" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
       <Column Name="tasks_phone" Type="System.String" DbType="VarChar(16) NOT NULL" CanBeNull="false" />
-      <Column Name="tasks_date_begin" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="tasks_date_end" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="tasks_date_exeq_begin" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="tasks_time_exeq_begin" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
-      <Column Name="tasks_date_exeq_end" Type="System.DateTime" DbType="Date NOT NULL" CanBeNull="false" />
-      <Column Name="tasks_time_exeq_end" Type="System.TimeSpan" DbType="Time NOT NULL" CanBeNull="false" />
+      <Column Name="tasks_date_begin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="tasks_date_end" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="tasks_date_exeq_begin" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="tasks_time_exeq_begin" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
+      <Column Name="tasks_date_exeq_end" Type="System.DateTime" DbType="Date" CanBeNull="true" />
+      <Column Name="tasks_time_exeq_end" Type="System.TimeSpan" DbType="Time" CanBeNull="true" />
       <Column Name="tasks_adres" Type="System.String" DbType="VarChar(350) NOT NULL" CanBeNull="false" />
       <Column Name="tasks_name_person" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />
       <Column Name="tasks_secname_person" Type="System.String" DbType="VarChar(250) NOT NULL" CanBeNull="false" />

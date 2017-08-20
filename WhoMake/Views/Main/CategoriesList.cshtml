@@ -1,9 +1,18 @@
-﻿<select name="category_id" id="categoryId" title="Выберите категорию" class="form-control" tabindex="1">
-    <option value="">Выберите...</option>
+﻿@{ 
+
+    int id = -1;
+
+    if (ViewBag.id != "")
+    { id = Convert.ToInt32(ViewBag.id); }
+
+}
+
+<select name="category_id" id="categoryId" title="Выберите категорию" class="form-control" tabindex="1">
+    <option value="">Выберите категорию</option>
     @{
         foreach (var Category in Model)
         {
-              <option value = "@Category.category_id" > @Category.category_name </option>
+              <option @{if (Category.category_id == id) { Write("selected"); }} value = "@Category.category_id" > @Category.category_name </option>
               }
 
     }

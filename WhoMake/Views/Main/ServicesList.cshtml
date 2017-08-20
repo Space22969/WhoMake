@@ -1,6 +1,21 @@
-﻿  @{
-        foreach (var service in Model)
+﻿
+@{
+
+    int id = -1;
+
+    if (ViewBag.id_serv != "")
+    { id = Convert.ToInt32(ViewBag.id_serv); }
+
+}
+<select name="service_id" id="serviceId" title="Выберите вид услуги" class="form-control"  tabindex="2">
+    <option value="">Выберите услугу</option>
+    @{
+        if (Model != null)
         {
-            <option value="@service.services_id">@service.services_name</option>
+            foreach (var service in Model)
+            {
+            <option @{if (service.services_id == id) { Write("selected"); }} value="@service.services_id">@service.services_name</option>
+                }
+            }
         }
-    }
+</select>

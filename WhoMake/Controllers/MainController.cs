@@ -10,6 +10,9 @@ using DataBase;
 using System.Data.Linq;
 using System.Linq;
 using System.Configuration;
+using WhoMake.Models;
+using PagedList.Mvc;
+using PagedList;
 
 namespace WhoMake.Controllers
 {
@@ -23,7 +26,7 @@ namespace WhoMake.Controllers
         static public bool CookieAuth;
         string DbConnect = @"Data Source=localhost;
                             Initial Catalog=whomake_database_on;
-                            Integrated Security=False;User ID=sa;Password=90963555aSd;";
+                            Integrated Security=False;User ID=sa;Password=123456;";
 
         protected override void Dispose(bool disposing)
         {
@@ -50,15 +53,26 @@ namespace WhoMake.Controllers
             return View();
         }
 
-        public ActionResult ServicesList(string id)
+        public ActionResult ServicesList(string id, string id_serv)
         {
-                 var services = context.services.Where(x =>x.services_id_category == Convert.ToInt32(id)).ToList();
+            if (id_serv != "") ViewBag.id_serv = id_serv;
+            List<DataBase.services> services = null;
+            if (id != "")
+            {
+                
+                services = context.services.Where(x => x.services_id_category == Convert.ToInt32(id)).ToList();
 
-            return PartialView(services);
-        }
+                return PartialView(services);
+            }
+            else
+            {
+                return PartialView();
+            }
+         }
 
-        public ActionResult CategoriesList()
+        public ActionResult CategoriesList(string id)
         {
+            ViewBag.id = id ?? "";
             var categories = context.category.ToList();
             return PartialView(categories);
         }
@@ -78,17 +92,65 @@ namespace WhoMake.Controllers
 
         public ActionResult Performers()
         {
-
             return View();
         }
+        
+        public ActionResult Task(string id, string backUrl)
+        {
+            ViewBag.URL = backUrl;
+            var task = context.tasks.Where(x => x.tasks_id == Convert.ToInt32(id)).ToList();
+                return View(task);
+        }
 
-        public ActionResult Tasks()
+
+        public ActionResult Tasks(string category_id, string service_id, string name, int? page)
         {
 
-            return View();
+            if (category_id == null) category_id = "";
+            if (service_id == null) service_id = "";
+            if (name == null) name = "";
+            //Thread.Sleep(5000);
+            List<tasks> task = null;
+            if(category_id != "" && service_id != "" && name != "")
+                task = context.tasks.Where(x => x.tasks_category == Convert.ToInt32(category_id) 
+                                             && x.tasks_service == Convert.ToInt32(category_id) 
+                                             && x.tasks_name.ToLower().Trim().Contains(name.ToLower().Trim())).ToList();
+
+            else if(category_id != "" && service_id != "" && name == "")
+                task = context.tasks.Where(x => x.tasks_category == Convert.ToInt32(category_id)
+                             && x.tasks_service == Convert.ToInt32(service_id)).ToList();
+
+            else if(category_id != "" && service_id == "" && name == "")
+                task = context.tasks.Where(x => x.tasks_category == Convert.ToInt32(category_id)).ToList();
+
+            else if(category_id == "" && service_id == "" && name == "")
+                task = context.tasks.ToList();
+
+            else if (category_id == "" && service_id != "" && name == "")
+                task = context.tasks.Where(x => x.tasks_service == Convert.ToInt32(service_id)).ToList();
+
+            else if (category_id == "" && service_id == "" && name != "")
+                task = context.tasks.Where(x => x.tasks_name.ToLower().Trim().Contains(name.ToLower().Trim())).ToList();
+
+            else if (category_id == "" && service_id != "" && name != "")
+                task = context.tasks.Where(x => x.tasks_service == Convert.ToInt32(service_id)
+                                             && x.tasks_name.ToLower().Trim().Contains(name.ToLower().Trim())).ToList();
+
+            else if (category_id != "" && service_id == "" && name != "")
+                task = context.tasks.Where(x => x.tasks_category == Convert.ToInt32(category_id)
+                                             && x.tasks_name.ToLower().Trim().Contains(name.ToLower().Trim())).ToList();
+
+            ViewBag.category = category_id;
+            ViewBag.service= service_id;
+            ViewBag.name = name;
+
+            int pageSize = 10;
+            int pageNumber = (page ?? 1);
+            return View(task.ToPagedList(pageNumber, pageSize));
+
         }
 
-        public ActionResult Registration()
+           public ActionResult Registration()
         {
 
             return View();
@@ -104,7 +166,7 @@ namespace WhoMake.Controllers
         {
             string[] splitStrings = new string[2];
             bool SuccessCookieAuth = false;
-            string user = "", regdate = "", money = "", name = "", secname = "";
+            string user = "", regdate = "", money = "", name = "", secname = "", id = "";
             if (HttpContext.Request.Cookies["JustASimpleCookieOmnOmnOmn"] != null)
             {
                 splitStrings = HttpContext.Request.Cookies["JustASimpleCookieOmnOmnOmn"].Value.ToString().Split(new string[] { "|USSRisComeBack!|" }, StringSplitOptions.None);
@@ -118,24 +180,27 @@ namespace WhoMake.Controllers
                     SqlCommand cmdSELECT = conn.CreateCommand();
 
                     cmdSELECT.CommandText = String.Format(@"SELECT 
-    [users_email]
+
+   [users_email]
    ,[users_pass]
    ,[users_regdate]
    ,[users_money]
    ,[users_name]
-   ,[users_secname] FROM [whomake_database_on].[dbo].[users]");
+   ,[users_secname]
+   ,[users_id]FROM [whomake_database_on].[dbo].[users]");
 
                     using (SqlDataReader ReadData = cmdSELECT.ExecuteReader(CommandBehavior.CloseConnection))
                     {
                         while (ReadData.Read())
                         {
-                            string[] tempString = new string[6];
+                            string[] tempString = new string[7];
                             tempString[0] = ReadData.GetValue(0).ToString().Trim();
                             tempString[1] = ReadData.GetValue(1).ToString().Trim();
                             tempString[2] = ReadData.GetValue(2).ToString().Trim();
                             tempString[3] = ReadData.GetValue(3).ToString().Trim();
                             tempString[4] = ReadData.GetValue(4).ToString().Trim();
                             tempString[5] = ReadData.GetValue(5).ToString().Trim();
+                            tempString[6] = ReadData.GetValue(6).ToString().Trim();
                             lst.Add(tempString);
                         }
                     }
@@ -155,6 +220,7 @@ namespace WhoMake.Controllers
                             money = itemLst[3];
                             name = itemLst[4];
                             secname = itemLst[5];
+                            id = itemLst[6];
                         // }
                     }
                 }
@@ -167,7 +233,8 @@ namespace WhoMake.Controllers
                     Session["users_money"] = money;
                     Session["users_name"] = name;
                     Session["users_secname"] = secname;
-    }
+                    Session["users_id"] = id;
+                }
             }
             
             return new EmptyResult();
@@ -195,7 +262,7 @@ namespace WhoMake.Controllers
             
             string tempEmail = "";
             string tempPassword = "";
-            string  regdate = "", money = "", name = "", secname = "";
+            string  regdate = "", money = "", name = "", secname = "", id = "";
             ViewBag.AnswerReg = "";
             bool NotExistUser = false;
             bool CheckPassword = false;
@@ -206,12 +273,14 @@ namespace WhoMake.Controllers
                 SqlCommand cmdSELECT = conn.CreateCommand();
 
                 cmdSELECT.CommandText = String.Format(@"SELECT  
+
     [users_email]
    ,[users_pass]
    ,[users_regdate]
    ,[users_money]
    ,[users_name]
-   ,[users_secname] FROM [whomake_database_on].[dbo].[users] WHERE [users_email] = '{0}'", username);
+   ,[users_secname]
+   ,[users_id] FROM [whomake_database_on].[dbo].[users] WHERE [users_email] = '{0}'", username);
 
                 using (SqlDataReader ReadData = cmdSELECT.ExecuteReader(CommandBehavior.CloseConnection))
                 { 
@@ -225,6 +294,7 @@ namespace WhoMake.Controllers
                             money = ReadData.GetValue(3).ToString().Trim();
                             name = ReadData.GetValue(4).ToString().Trim();
                             secname = ReadData.GetValue(5).ToString().Trim();
+                            id = ReadData.GetValue(6).ToString().Trim();
                         }
                     }
                     else
@@ -251,6 +321,7 @@ namespace WhoMake.Controllers
                     Session["users_money"] = money;
                     Session["users_name"] = name;
                     Session["users_secname"] = secname;
+                    Session["users_id"] = id;
 
                 }
                 else
@@ -466,10 +537,11 @@ namespace WhoMake.Controllers
                 Session_Id = Session.SessionID;
             if (Session["UserName"] != null)
                 UserName = Session["UserName"].ToString();
-            else UserName = "Anonymous";
+            else
+                UserName = "Anonymous";
+        
 
-
-            using (SqlConnection conn = new SqlConnection(DbConnect))
+                using (SqlConnection conn = new SqlConnection(DbConnect))
             {
                 bool flag = false;
                 conn.Open();
@@ -535,11 +607,111 @@ namespace WhoMake.Controllers
 
                 return new EmptyResult();
         }
-
-        public void CreateNewTask()
+        [ValidateInput(false)]
+        public void CreateNewTask(string category_id, 
+                                  string service_id, 
+                                  string title_id, 
+                                  string description, 
+                                  string price_id, 
+                                  string date_exeq_begin,
+                                  string time_exeq_begin,
+                                  string date_exeq_end,
+                                  string time_exeq_end,
+                                  string date_begin,
+                                  string date_end,
+                                  string location_id,
+                                  string adres_id,
+                                  string phone_id)
         {
-          
-            //Thread.Sleep(20000);
+            var category = context.category.Where(x => x.category_id == Convert.ToInt32(category_id)).ToList();
+
+            //if (date_exeq_begin == null)
+            //    date_exeq_begin = "00.00.0000";
+            //if (time_exeq_begin == null)
+            //    time_exeq_begin = "00.00.0000";
+            //if (date_exeq_end == null)
+            //    date_exeq_end = "00.00.0000";
+            //if (time_exeq_end == null)
+            //    time_exeq_end = "00.00.0000";
+            //if (date_begin == null)
+            //    date_begin = "00.00.0000";
+            //if (date_end == null)
+            //    date_end = "00.00.0000";
+
+
+            DateTime date_exeq_beginD;
+            if (date_exeq_begin == null)
+                date_exeq_beginD = new DateTime();
+            else
+            {
+                date_exeq_beginD = DateTime.Parse(date_exeq_begin);
+            }
+
+            TimeSpan time_exeq_beginD;
+            if (time_exeq_begin == null)
+                time_exeq_beginD = new TimeSpan();
+            else
+            {
+                time_exeq_beginD = TimeSpan.Parse(time_exeq_begin + ":00");
+            }
+            DateTime date_exeq_endD;
+            if (date_exeq_end == null)
+                date_exeq_endD = new DateTime();
+            else
+            {
+                date_exeq_endD = DateTime.Parse(date_exeq_end);
+            }
+            TimeSpan time_exeq_endD;
+            if (time_exeq_end == null)
+                time_exeq_endD = new TimeSpan();
+            else
+            {
+                time_exeq_endD = TimeSpan.Parse(time_exeq_end+":00");
+            }
+            DateTime date_beginD;
+            if (date_begin == null)
+                date_beginD = new DateTime();
+            else
+            {
+                date_beginD = DateTime.Parse(date_begin);
+            }
+            DateTime date_endD;
+            if (date_end == null)
+                date_endD = new DateTime();
+            else
+            {
+                date_endD = DateTime.Parse(date_end);
+            }
+
+            string name = Session["users_name"].ToString();
+            string secname = Session["users_secname"].ToString();
+            string id = Session["users_id"].ToString();
+            var newTask = new tasks {
+                tasks_id_person = Convert.ToInt32(id),
+                tasks_category = Convert.ToInt32(category_id),
+                tasks_service = Convert.ToInt32(service_id),
+                tasks_name = title_id,
+                tasks_description = description,
+                tasks_price = Convert.ToInt32(price_id),
+                tasks_phone = phone_id,
+                tasks_date_begin = date_beginD,
+                tasks_date_end = date_endD,
+                tasks_date_exeq_begin = date_exeq_beginD,
+                tasks_time_exeq_begin = time_exeq_beginD,
+                tasks_date_exeq_end = date_exeq_endD,
+                tasks_time_exeq_end = time_exeq_endD,
+                tasks_adres = adres_id,
+                tasks_name_person = name,
+                tasks_secname_person = secname,
+                tasks_creation = DateTime.Now,
+                tasks_status = "Открыто",
+                tasks_views = 0,
+                tasks_money = category[0].category_price
+        }; 
+            context.tasks.InsertOnSubmit(newTask);
+            context.tasks.Context.SubmitChanges();
+
+            Thread.Sleep(5000);
             HttpContext.Response.Write("true");
         }
 

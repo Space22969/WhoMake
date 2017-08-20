@@ -1,0 +1,80 @@
+﻿@model PagedList.IPagedList<DataBase.tasks>
+@using PagedList.Mvc;
+ <style>
+        .one-task:hover {
+            background-color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 1px solid;
+        }
+    </style>
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+    <script>
+                        $('#categoryId').change(function () {
+                            service();
+                        });
+
+    </script>
+@{
+    string category_id = ViewBag.category ?? "";
+    string service_id = ViewBag.service ?? "";
+    string name = ViewBag.name ?? "";
+}
+<script>
+
+        var service = function ()
+        {
+            var NumberCategory = $('#categoryId').val();
+            $.ajax({
+                type: "POST",
+                url: "ServicesList",
+                data: "id=" + NumberCategory,
+                dataType: "html",
+                cache: false,
+                success: function (data) {
+                    if (data == "") data = '<select name="service_id" id="serviceId" title="Выберите вид услуги" class="form- control" required tabindex="2">\
+                                                    < option value= "" >Выберите услугу</option>\
+                                                    </select>';
+                    $("#ListServices").html(data);
+                }
+            });
+        }
+        $(document).ready(function () {
+            $("#categoryId").val(@category_id);
+            service();
+            $("#serviceId").val(@service_id);
+            $("#input_name").val(@name);
+        });
+</script>
+    <hr align="left" width="100%" size="1" color="#292C2F" />
+    @{
+        foreach (var task in Model)
+        {<a href="@Url.Action("Task", "Main", new { id = task.tasks_id, backUrl = HttpContext.Current.Request.Url })" data-content="@task.tasks_id" style="color:black;">
+        <div style="margin-top: -17px;margin-bottom: -17px;" class="one-task">
+            <div class="row" style="padding:0 20px; font-size:23px">
+                <div class="in col-md-9">@task.tasks_name</div>
+                <div class="in col-md-2 col-md-offset-1"><span style="float:right">@task.tasks_price <i class="fa fa-rub" aria-hidden="true"></i></span></div>
+            </div>
+
+            <div class="row" style="font-size:17px">
+                <div class="col-md-offset-1 col-md-10" style="height: 80px; margin-top: 10px;">@{if (task.tasks_description.Length > 150)
+                    { @Html.Raw(task.tasks_description.Substring(0, 150) + "...");
+                    }
+                    else
+                    {@Html.Raw(task.tasks_description);
+                    }}</div>
+            </div>
+
+            <div class="row" style="font-size:23px; padding: 0 20px; ">
+                <div class="in col-md-2">@task.tasks_creation.ToShortDateString()</div>
+                <div class="in col-md-8">@task.tasks_category - @task.tasks_service</div>
+                <div class="in col-md-2"><span style="float:right"><i class="fa fa-eye fa-3" aria-hidden="true"></i> @task.tasks_views</span></div>
+            </div>
+        </div>
+    </a>
+            <hr align="left" width="100%" size="1" color="#292C2F" />
+                    }
+    }
+
+@Html.PagedListPager(Model, page => Url.Action("Tasks", new {category_id, service_id, name, page }))
