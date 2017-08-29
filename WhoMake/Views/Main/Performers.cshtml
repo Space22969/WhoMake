@@ -1,1 +1,65 @@
-﻿
+﻿@{
+    string category_id = ViewBag.category ?? "";
+    string name = ViewBag.name ?? "";
+}
+<div class="row" style="padding: 10px 0;">
+    <form action="Performers" method="get" class="form-reg form-horizontal">
+        <div class="col-md-3">@{Html.RenderAction("CategoriesList", new { id = category_id });}</div>
+        <div class="col-md-7"><input placeholder="Поиск по исполнителям " type="text" style="max-width: 100%;" name="name" class="form-control" id="input_name" /></div>
+        <div class="col-md-2"><button style="padding: 6px; padding-left: 0; padding-right: 0; width: 80%; float:right;" id="Submit" class="flat-butt flat-info-butt btn-block" type="submit">Найти</button></div>
+    </form>
+</div>
+
+
+<div class="form-reg form-horizontal hei" id="body_tasks">
+
+    <!--{Html.RenderAction("AjaxTasks");}-->
+    <!--НАЧАЛО КОДА-->
+    @model PagedList.IPagedList<DataBase.performers>
+    @using PagedList.Mvc;
+    <style>
+        .one-task:hover {
+            background-color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            border: 1px solid;
+        }
+     </style>
+    <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+    <hr align="left" width="100%" size="1" color="#292C2F" />
+    @{
+        if (Model.Count == 0)
+        {
+            <h2>К сожалению поиск не дал результатов.</h2>
+        }
+        else
+        {
+            foreach (var performer in Model)
+            {<a href="@Url.Action("Performer", "Main", new { id = performer.performers_id, backUrl = HttpContext.Current.Request.Url })" data-content="@performer.performers_id" style="color:black;">
+        <div style="margin-top: -17px;margin-bottom: -17px;" class="one-task">
+            <div class="row" style="height:180px; padding:8px;">
+                <div class="col-md-2"><img src="~/Content/Images/nophoto.png" height="140px"></div>
+                <div class="col-md-10">
+                    <div class="row">
+                        <div class="col-md-5"><span style="font-size:25px;">@performer.performers_name @performer.performers_secname.Substring(0, 1).</span></div>
+                        <div class="col-md-offset-3 col-md-4"><span style="font-size:20px;float: right;">На сайте с @performer.performers_datereg.Value.ToShortDateString()</span></div>
+                    </div>
+                    <div class="row"><div class="col-md-12"><span style="font-size:18px;"><strong>Обо мне:</strong>@{if (performer.performers_yourself.Length > 150)
+                        { @Html.Raw(performer.performers_yourself.Substring(0, 150) + "...");
+                        }
+                        else
+                        {@Html.Raw(performer.performers_yourself);
+                        }}</span></div></div>
+                </div>
+            </div>
+        </div>
+    </a>
+    <hr align="left" width="100%" size="1" color="#292C2F" />
+                            }
+                        }
+    }
+
+    @Html.PagedListPager(Model, page => Url.Action("Performers", new { category_id, name, page }))
+    <!--КОНЕЦ КОДА-->
+</div>
+

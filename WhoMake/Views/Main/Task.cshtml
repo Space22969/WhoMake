@@ -1,13 +1,69 @@
-﻿<div class="form-reg form-horizontal hei">
+﻿<div class="form-reg form-horizontal">
 
-    @{ 
-        var task = Model[0];
 
-        <div>
+    <style>
 
-            @task.tasks_id
-            @ViewBag.URL
+        .task div {
+            border: 1px solid;
+            height: 80px;
+        }
+    </style>
+    <div class="row task">
+
+        <div class="row">
+            <div class="col-md-6">@ViewBag.Task.tasks_name</div>
+            <div class="col-md-6">@ViewBag.Task.tasks_price</div>
         </div>
-    }
+        <div class="row">
+            <div class="col-md-6">Статус задания: @ViewBag.Task.tasks_status</div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">Создано: @ViewBag.Task.tasks_creation</div>
+            <div class="col-md-3">глаз @ViewBag.Task.tasks_views просмотров</div>
+        </div>
 
-</div>
+    </div>
+
+    <div class="row task">
+        <div class="row">
+            <div class="col-md-6">Описание задания:</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">@Html.Raw(ViewBag.Task.tasks_description)</div>
+        </div>
+    </div>
+
+    <div class="row task">
+        <div class="row">
+            <div class="col-md-6">Дата и время исполнения:</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">@ViewBag.Task.tasks_date_exeq_end @ViewBag.Task.tasks_time_exeq_end</div>
+        </div>
+    </div>
+
+    <div class="row task">
+        <div class="row">
+            <div class="col-md-6">Заказчик:</div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">@ViewBag.User.users_name @ViewBag.User.users_secname   на сайте с @ViewBag.User.users_regdate.ToShortDateString()</div>
+        </div>
+    </div>
+<!--
+    ВРЕМЯ ВЫПОЛНЕНИЯ
+        if($timeDo["date_begin"]>0 && $timeDo["date_end"]>0)
+           echo ' <div style="float: left; width: 18%;"><strong>Начать:</strong></div><div style="width: 85%;"> '.$timeDo["date_begin"].'</div>
+           <br>
+           <div style="float: left; width: 18%;"><strong>Завершить:</strong></div><div style="width: 85%;"> '.$timeDo["date_end"].'</div>';
+       
+        if($timeDo["date_exeq_begin"]>0)
+           echo ' <div style="float: left; width: 15%;"><strong>Начать:</strong></div><div style=" width: 85%;">'.$timeDo["date_exeq_begin"].' '.$timeDo["time_exeq_begin"].'</div>';
+       
+        if($timeDo["date_exeq_end"]>0)
+           echo ' <div style="float: left; width: 17%;"><strong>Завершить:</strong></div><div style="margin-top:15px; width: 85%;">'.$timeDo["date_exeq_end"].' '.$timeDo["time_exeq_end"].'</div>';
+
+
+-->
+
+    </div>

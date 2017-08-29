@@ -179,6 +179,7 @@
     <Content Include="Content\Images\drawing.png" />
     <Content Include="Content\Images\drawing.svg" />
     <Content Include="Content\Images\index\indexImage.jpg" />
+    <Content Include="Content\Images\nophoto.png" />
     <Content Include="Content\PagedList.css" />
     <Content Include="Content\summernote.css" />
     <Content Include="Content\Images\Views.png" />

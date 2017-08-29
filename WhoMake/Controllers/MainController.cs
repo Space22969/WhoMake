@@ -13,6 +13,7 @@ using System.Configuration;
 using WhoMake.Models;
 using PagedList.Mvc;
 using PagedList;
+using System.Collections;
 
 namespace WhoMake.Controllers
 {
@@ -90,16 +91,59 @@ namespace WhoMake.Controllers
             return PartialView();
         }
 
-        public ActionResult Performers()
+        public ActionResult Performers(string category_id, string name, int? page)
         {
-            return View();
+                if (category_id == null) category_id = "";
+                if (name == null) name = "";
+            //Thread.Sleep(5000);
+            List<performers> performer = null;
+
+                if (category_id != "" && name != "")
+                performer = (from perf in context.performers
+                             join cat_perf in context.category_performers on perf.performers_id equals cat_perf.category_performers_id_person
+                             where (Convert.ToInt32(category_id) == cat_perf.category_performers_id_category && perf.performers_name.ToLower().Trim().Contains(name.ToLower().Trim()))
+                             select perf).ToList();
+
+                else if (category_id != "" && name == "")
+                performer = (from perf in context.performers
+                             join cat_perf in context.category_performers on perf.performers_id equals cat_perf.category_performers_id_person
+                             where Convert.ToInt32(category_id) == cat_perf.category_performers_id_category
+                             select perf).ToList();
+
+                else if (category_id == "" && name != "")
+                performer = (from perf in context.performers
+                             join cat_perf in context.category_performers on perf.performers_id equals cat_perf.category_performers_id_person
+                             where perf.performers_name.ToLower().Trim().Contains(name.ToLower().Trim())
+                             select perf).ToList();
+            // context.performers.Join(context.category_performers, // второй набор
+            //p => p.performers_id, // свойство-селектор объекта из первого набора
+            //c => c.category_performers_id_person, // свойство-селектор объекта из второго набора
+            //(p, c) => new {p,c}).W);
+
+
+
+            else if (category_id == "" && name == "")
+                performer = context.performers.ToList();
+
+                ViewBag.category = category_id;
+                ViewBag.name = name;
+
+                int pageSize = 10;
+                int pageNumber = (page ?? 1);
+                return View(performer.ToPagedList(pageNumber, pageSize));
+
         }
         
         public ActionResult Task(string id, string backUrl)
         {
             ViewBag.URL = backUrl;
-            var task = context.tasks.Where(x => x.tasks_id == Convert.ToInt32(id)).ToList();
-                return View(task);
+            
+            tasks task = context.tasks.Where(x => x.tasks_id == Convert.ToInt32(id)).First();
+
+            users user = context.users.Where(x => x.users_id == task.tasks_id_person).First();
+            ViewBag.Task = task;
+            ViewBag.User = user;
+            return View();
         }
 
 
@@ -113,7 +157,7 @@ namespace WhoMake.Controllers
             List<tasks> task = null;
             if(category_id != "" && service_id != "" && name != "")
                 task = context.tasks.Where(x => x.tasks_category == Convert.ToInt32(category_id) 
-                                             && x.tasks_service == Convert.ToInt32(category_id) 
+                                             && x.tasks_service == Convert.ToInt32(service_id) 
                                              && x.tasks_name.ToLower().Trim().Contains(name.ToLower().Trim())).ToList();
 
             else if(category_id != "" && service_id != "" && name == "")
@@ -607,6 +651,7 @@ namespace WhoMake.Controllers
 
                 return new EmptyResult();
         }
+
         [ValidateInput(false)]
         public void CreateNewTask(string category_id, 
                                   string service_id, 
