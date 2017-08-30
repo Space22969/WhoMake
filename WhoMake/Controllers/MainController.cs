@@ -14,6 +14,7 @@ using WhoMake.Models;
 using PagedList.Mvc;
 using PagedList;
 using System.Collections;
+using System.Globalization;
 
 namespace WhoMake.Controllers
 {
@@ -27,7 +28,7 @@ namespace WhoMake.Controllers
         static public bool CookieAuth;
         string DbConnect = @"Data Source=localhost;
                             Initial Catalog=whomake_database_on;
-                            Integrated Security=False;User ID=sa;Password=123456;";
+                            Integrated Security=False;User ID=sa;Password=90963555aSd;";
 
         protected override void Dispose(bool disposing)
         {
@@ -136,14 +137,29 @@ namespace WhoMake.Controllers
         
         public ActionResult Task(string id, string backUrl)
         {
-            ViewBag.URL = backUrl;
-            
-            tasks task = context.tasks.Where(x => x.tasks_id == Convert.ToInt32(id)).First();
+            if (id == null || backUrl == null)
+                return HttpNotFound();
+            else
+            {
+                ViewBag.URL = backUrl;
+                
+                tasks task = context.tasks.Where(x => x.tasks_id == Convert.ToInt32(id)).First();
 
-            users user = context.users.Where(x => x.users_id == task.tasks_id_person).First();
-            ViewBag.Task = task;
-            ViewBag.User = user;
-            return View();
+                users user = context.users.Where(x => x.users_id == task.tasks_id_person).First();
+
+
+                ViewBag.Task = task;
+                ViewBag.User = user;
+                var result = context.tasks.SingleOrDefault(b => b.tasks_id == task.tasks_id);
+                    if (result != null)
+                    {
+                    result.tasks_views += 1;
+                        context.SubmitChanges();
+                    }
+                
+
+                return View();
+            }
         }
 
 

@@ -16,15 +16,16 @@
     },
      new { class = "form-reg form-horizontal", id = "SearchForm" }))
 {-->
-     <form action="Tasks" method="get" class="form-reg form-horizontal">
-    <div class="col-md-3">@{Html.RenderAction("CategoriesList", new { id = category_id});}</div>
+    <form action="Tasks" method="get" class="form-reg form-horizontal">
+    <div class="col-md-3">@{Html.RenderAction("CategoriesList", new { id = category_id });}</div>
     <div class="col-md-3" id="ListServices">
-        @{Html.RenderAction("ServicesList", new {id = category_id, id_serv = service_id });}
+        @{Html.RenderAction("ServicesList", new { id = category_id, id_serv = service_id });}
     </div>
     <div class="col-md-4"><input placeholder="Поиск по заданиям " type="text" style="max-width: 100%;" name="name" class="form-control" id="input_name"/></div>
     <div class="col-md-2"><button style="padding: 6px; padding-left: 0; padding-right: 0; width: 80%; float:right;" id="Submit" class="flat-butt flat-info-butt btn-block" type="submit">Найти</button></div>
        
     </form>
+
     <script>
         function sleep(ms) {
             ms += new Date().getTime();
@@ -51,7 +52,7 @@
             background-color: white;
             border-radius: 10px;
             cursor: pointer;
-            border: 1px solid;
+            border: 1px solid #CCCCCC;
         }
     </style>
     <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />

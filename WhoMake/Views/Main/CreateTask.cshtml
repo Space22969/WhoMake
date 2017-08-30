@@ -25,7 +25,7 @@
         {
 
     <h1 class="item-form__title">Основная информация</h1>
-    @DateTime.Now.ToString();
+    
         <hr align="left" width="100%" size="1" color="#292C2F" /><br>
 
                 <div class="form-group">
@@ -87,6 +87,7 @@
             <!--<div id="summernote"></div>-->
             <textarea class="form-control" id="summernote" name="description" rows="18">
 					</textarea>
+            <h5 style="text-align:right">Осталось символов: </h5><h5 id="maxContentPost" style="text-align:right"></h5>
             <script>
                 $(document).ready(function () {
                     $('#summernote').summernote({
@@ -101,8 +102,29 @@
                             ['height', ['height']]
                         ],
                         disableDragAndDrop: true,
-                        placeholder: 'Опишите пожелания и детали, чтобы исполнители лучше оценили вашу задачу. Укажите полное описание задачи, пример желаемого результата, дополнительные требования к исполнителю, сроки выполнения заказа, условия оплаты.'
-
+                        placeholder: 'Опишите пожелания и детали, чтобы исполнители лучше оценили вашу задачу. Укажите полное описание задачи, пример желаемого результата, дополнительные требования к исполнителю, сроки выполнения заказа, условия оплаты.',
+                        callbacks: {
+                            onKeydown: function (e) {
+                                var t = e.currentTarget.innerText;
+                                if (t.trim().length >= 1000) {
+                                    //delete key
+                                    if (e.keyCode != 8)
+                                        e.preventDefault();
+                                }
+                            },
+                            onKeyup: function (e) {
+                                var t = e.currentTarget.innerText;
+                                $('#maxContentPost').text(1000 - t.trim().length);
+                            },
+                            onPaste: function (e) {
+                                var t = e.currentTarget.innerText;
+                                var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+                                e.preventDefault();
+                                var all = t + bufferText;
+                                document.execCommand('insertText', false, all.trim().substring(0, 1000));
+                                $('#maxContentPost').text(1000 - t.length);
+                            }
+                        }
                     });
 
   

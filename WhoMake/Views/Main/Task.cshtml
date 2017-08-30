@@ -1,53 +1,81 @@
-﻿<div class="form-reg form-horizontal">
-
-
+﻿@using System.Globalization;
+<div class="container">
     <style>
+        .task{
+            padding: 10px;
+            font-size:17px;
+        }
 
-        .task div {
-            border: 1px solid;
-            height: 80px;
+        .fa-3 {
+            font-size: 3em;
+            margin-left: -3px;
+        }
+
+        .back_button a:hover{
+            color: white;
         }
     </style>
+   <div class="row">
+       <div class="back_button"
+            style="
+       position: fixed;
+       left: 20px;"><a href="@ViewBag.URL" class="flat-butt flat-info-butt btn-block"><i class="fa fa-arrow-circle-left fa-3" aria-hidden="true"></i></a></div>
+
+       <div class="col-md-8 col-md-offset-1 form-reg form-horizontal">
     <div class="row task">
 
         <div class="row">
-            <div class="col-md-6">@ViewBag.Task.tasks_name</div>
-            <div class="col-md-6">@ViewBag.Task.tasks_price</div>
+            <div class="col-md-6"><span style="font-size: 29px;font-weight: 600;">@ViewBag.Task.tasks_name</span></div>
+            <div class="col-md-6"><span style="float:right; font-size:20px;">@ViewBag.Task.tasks_price <i class="fa fa-rub" aria-hidden="true"></i></span></div>
+        </div>
+        <div class="row" style="margin-top: 10px;">
+            <div class="col-md-6"><span style="font-size:17px; font-weight:600;">Статус задания:</span> @ViewBag.Task.tasks_status</div>
         </div>
         <div class="row">
-            <div class="col-md-6">Статус задания: @ViewBag.Task.tasks_status</div>
-        </div>
-        <div class="row">
-            <div class="col-md-9">Создано: @ViewBag.Task.tasks_creation</div>
-            <div class="col-md-3">глаз @ViewBag.Task.tasks_views просмотров</div>
+            <div class="col-md-9"><span style=" font-size:17px; font-weight:600;">Создано:</span> @ViewBag.Task.tasks_creation.ToString("dd MMMM yyyy в hh:mm",
+CultureInfo.CreateSpecificCulture("ru-RU"))</div>
+            <div class="col-md-3"><span style="float:right; font-size:20px;"><i class="fa fa-eye" aria-hidden="true"></i> @ViewBag.Task.tasks_views</span></div>
         </div>
 
     </div>
-
+    <hr align="left" width="100%" size="1" color="#292C2F" />
     <div class="row task">
         <div class="row">
-            <div class="col-md-6">Описание задания:</div>
+            <div class="col-md-6"><span style=" font-size:20px; font-weight:600;">Описание задания:</span></div>
         </div>
         <div class="row">
-            <div class="col-md-12">@Html.Raw(ViewBag.Task.tasks_description)</div>
+            <div class="col-md-12"  style="padding-left: 30px;padding-top: 5px;">@Html.Raw(ViewBag.Task.tasks_description)</div>
         </div>
     </div>
-
+    <hr align="left" width="100%" size="1" color="#292C2F" />
     <div class="row task">
         <div class="row">
-            <div class="col-md-6">Дата и время исполнения:</div>
+            <div class="col-md-6"><span style="font-size:20px; font-weight:600;">Дата и время исполнения:</span></div>
         </div>
         <div class="row">
-            <div class="col-md-12">@ViewBag.Task.tasks_date_exeq_end @ViewBag.Task.tasks_time_exeq_end</div>
-        </div>
-    </div>
+            <div class="col-md-12" style="padding-left: 30px;padding-top: 5px;">
+            
+            
+@{
+    DateTime tempDate = new DateTime();
+    if (ViewBag.Task.tasks_date_begin != tempDate && ViewBag.Task.tasks_date_end != tempDate)
+    {<div style="float: left; width: 18%;"><strong>Начать:</strong></div><div style="width: 85%;">@ViewBag.Task.tasks_date_begin.ToString("dd MMMM yyyy",
+                        CultureInfo.CreateSpecificCulture("ru-RU"))</div>
+     <br>
+     <div style = "float: left; width: 18%;"><strong>Закончить:</strong></div><div style = "width: 85%;">@ViewBag.Task.tasks_date_end.ToString("dd MMMM yyyy",
+                        CultureInfo.CreateSpecificCulture("ru-RU"))</div>
+    }
+    if (ViewBag.Task.tasks_date_exeq_begin != tempDate)
+    {<div style="float: left; width: 15%;"><strong>Начать:</strong></div><div style=" width: 85%;">@ViewBag.Task.tasks_date_exeq_begin.ToString("dd MMMM yyyy",
+                        CultureInfo.CreateSpecificCulture("ru-RU")) @ViewBag.Task.tasks_time_exeq_begin.ToString().Substring(0, 5)</div>}
 
-    <div class="row task">
-        <div class="row">
-            <div class="col-md-6">Заказчик:</div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">@ViewBag.User.users_name @ViewBag.User.users_secname   на сайте с @ViewBag.User.users_regdate.ToShortDateString()</div>
+    if (ViewBag.Task.tasks_date_exeq_end != tempDate)
+    {<div style="float: left; width: 17%;"><strong>Закончить:</strong></div><div style="width: 85%;">@ViewBag.Task.tasks_date_exeq_end.ToString("dd MMMM yyyy",
+                        CultureInfo.CreateSpecificCulture("ru-RU")) @ViewBag.Task.tasks_time_exeq_end.ToString().Substring(0, 5)</div>}
+
+}
+           
+            </div>
         </div>
     </div>
 <!--
@@ -67,3 +95,31 @@
 -->
 
     </div>
+       <div class="col-md-3 col-md-offset-1"
+            style="
+       padding: 15px 35px 45px;
+       background-color: #fff;
+       border: 1px solid rgba(0, 0, 0, 0.1);
+       position: fixed;
+       right: 10px;"><div id="place_for_cookie"><button id="cookiebutton" class="flat-butt flat-info-butt btn-block">Показать номер</button></div>
+       <div class="row task">
+           <div class="row">
+               <div class="col-md-6"><span style="font-size:20px; font-weight:600;">Заказчик:</span></div>
+           </div>
+           <div class="row">
+               <div class="col-md-12" style="padding-left: 30px;padding-top: 5px;">
+                   @ViewBag.User.users_name @ViewBag.User.users_secname.Substring(0, 1).<br />на сайте с @ViewBag.User.users_regdate.ToString("dd MMMM yyyy года",
+                        CultureInfo.CreateSpecificCulture("ru-RU"))
+               </div>
+           </div>
+       </div>
+       </div>
+    </div>
+</div>
+<script>
+
+    $("#cookiebutton").click(function () {
+        $("#place_for_cookie").html('<button class="flat-butt flat-info-butt btn-block" disabled>@ViewBag.Task.tasks_phone</button>');
+    });
+
+</script>

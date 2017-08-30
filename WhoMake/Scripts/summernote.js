@@ -4659,62 +4659,62 @@
      * @param {String|Function} param
      * @return {Promise}
      */
-    this.insertImage = function (src, param) {
-      return async.createImage(src, param).then(function ($image) {
-        beforeCommand();
+    //this.insertImage = function (src, param) {
+    //  return async.createImage(src, param).then(function ($image) {
+    //    beforeCommand();
 
-        if (typeof param === 'function') {
-          param($image);
-        } else {
-          if (typeof param === 'string') {
-            $image.attr('data-filename', param);
-          }
-          $image.css('width', Math.min($editable.width(), $image.width()));
-        }
+    //    if (typeof param === 'function') {
+    //      param($image);
+    //    } else {
+    //      if (typeof param === 'string') {
+    //        $image.attr('data-filename', param);
+    //      }
+    //      $image.css('width', Math.min($editable.width(), $image.width()));
+    //    }
 
-        $image.show();
-        range.create(editable).insertNode($image[0]);
-        range.createFromNodeAfter($image[0]).select();
-        afterCommand();
-      }).fail(function (e) {
-        context.triggerEvent('image.upload.error', e);
-      });
-    };
+    //    $image.show();
+    //    range.create(editable).insertNode($image[0]);
+    //    range.createFromNodeAfter($image[0]).select();
+    //    afterCommand();
+    //  }).fail(function (e) {
+    //    context.triggerEvent('image.upload.error', e);
+    //  });
+    //};
 
     /**
      * insertImages
      * @param {File[]} files
      */
-    this.insertImages = function (files) {
-      $.each(files, function (idx, file) {
-        var filename = file.name;
-        if (options.maximumImageFileSize && options.maximumImageFileSize < file.size) {
-          context.triggerEvent('image.upload.error', lang.image.maximumFileSizeError);
-        } else {
-          async.readFileAsDataURL(file).then(function (dataURL) {
-            return self.insertImage(dataURL, filename);
-          }).fail(function () {
-            context.triggerEvent('image.upload.error');
-          });
-        }
-      });
-    };
+    //this.insertImages = function (files) {
+    //  $.each(files, function (idx, file) {
+    //    var filename = file.name;
+    //    if (options.maximumImageFileSize && options.maximumImageFileSize < file.size) {
+    //      context.triggerEvent('image.upload.error', lang.image.maximumFileSizeError);
+    //    } else {
+    //      async.readFileAsDataURL(file).then(function (dataURL) {
+    //        return self.insertImage(dataURL, filename);
+    //      }).fail(function () {
+    //        context.triggerEvent('image.upload.error');
+    //      });
+    //    }
+    //  });
+    //};
 
     /**
      * insertImagesOrCallback
      * @param {File[]} files
      */
-    this.insertImagesOrCallback = function (files) {
-      var callbacks = options.callbacks;
+    //this.insertImagesOrCallback = function (files) {
+    //  var callbacks = options.callbacks;
 
-      // If onImageUpload options setted
-      if (callbacks.onImageUpload) {
-        context.triggerEvent('image.upload', files);
-      // else insert Image as dataURL
-      } else {
-        this.insertImages(files);
-      }
-    };
+    //  // If onImageUpload options setted
+    //  if (callbacks.onImageUpload) {
+    //    context.triggerEvent('image.upload', files);
+    //  // else insert Image as dataURL
+    //  } else {
+    //    this.insertImages(files);
+    //  }
+    //};
 
     /**
      * insertNode
@@ -5256,9 +5256,9 @@
       var clipboardData = event.originalEvent.clipboardData;
       if (clipboardData && clipboardData.items && clipboardData.items.length) {
         var item = list.head(clipboardData.items);
-        if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
-          context.invoke('editor.insertImagesOrCallback', [item.getAsFile()]);
-        }
+        //if (item.kind === 'file' && item.type.indexOf('image/') !== -1) {
+        //  context.invoke('editor.insertImagesOrCallback', [item.getAsFile()]);
+        //}
         context.invoke('editor.afterCommand');
       }
     };
@@ -7796,7 +7796,9 @@
         onEnter: null,
         onKeyup: null,
         onKeydown: null,
-        onImageUpload: null,
+        onImageUpload: function (data) {
+            alert("УДАЛИ!");
+        },
         onImageUploadError: null
       },
 
